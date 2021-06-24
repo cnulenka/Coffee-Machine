@@ -1,5 +1,4 @@
 from Beverage import Beverage
-
 from threading import Lock, Thread
 
 class SingletonMeta(type):
@@ -47,9 +46,11 @@ class InventoryManager(metaclass=SingletonMeta):
         for ingredient in required_compostion:
             ingredient_inventory_quantity= self._inventory.get(ingredient, 0)
             if ingredient_inventory_quantity == 0:
+                print("{} cannot be prepared because {} is not available".format(beverage.get_name(), ingredient))
                 is_possible = False
                 break
             elif required_compostion[ingredient] > ingredient_inventory_quantity:
+                print("{} cannot be prepared because {} is not sufficient".format(beverage.get_name(), ingredient))
                 is_possible = False
                 break
         

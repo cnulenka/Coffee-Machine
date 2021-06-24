@@ -7,17 +7,17 @@ class CoffeeMachine:
     instance = None
 
     class __OnlyOne:
-        def __init__(self, x):
-            self._x = x
-            self._details = CoffeeMachineDetails()
+        def __init__(self, input_json):
+            self._input_json = input_json
+            self._details = CoffeeMachineDetails(input_json)
             self._inventory_manager = None
         
     
-    def __init__(self, x):
+    def __init__(self, input_json):
         if not CoffeeMachine.instance:
-            CoffeeMachine.instance = CoffeeMachine.__OnlyOne(x)
+            CoffeeMachine.instance = CoffeeMachine.__OnlyOne(input_json)
         else:
-            CoffeeMachine.instance._x = x
+            CoffeeMachine.instance._input_json = input_json
     
     def process(self):
         self._inventory_manager = InventoryManager()
