@@ -1,6 +1,7 @@
 from models.InventoryManager import InventoryManager
 from models.CoffeeMachineDetails import CoffeeMachineDetails
 from models.Beverage import Beverage
+from BeverageMakerTask import BeverageMakerTask
 
 class CoffeeMachine:
     instance = None
@@ -33,7 +34,7 @@ class CoffeeMachine:
     
     def add_beverage_request(self, beverage: Beverage):
         task = BeverageMakerTask(beverage)
-        #add task to thread
+        task.run()
 
     def stop_machine(self):
         #stop thread executor

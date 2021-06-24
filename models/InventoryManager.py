@@ -57,6 +57,8 @@ class InventoryManager(metaclass=SingletonMeta):
             for ingredient in required_compostion:
                 ingredient_inventory_quantity= self._inventory.get(ingredient, 0)
                 self._inventory[ingredient] = ingredient_inventory_quantity - required_compostion[ingredient]
+        
+        return is_possible
 
 
     def add_ingredients_to_inventory(self, ingredient: str, quantity: float):

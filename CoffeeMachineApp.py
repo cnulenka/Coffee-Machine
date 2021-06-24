@@ -1,7 +1,7 @@
 from .models.CoffeeMachine import CoffeeMachine
 
 def run(input_file_name: str):
-    coffee_machine = CoffeeMachine.getInstance()
+    coffee_machine = CoffeeMachine()
     coffee_machine.process()
     coffee_machine.reset()
 
