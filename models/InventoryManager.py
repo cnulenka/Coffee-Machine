@@ -1,12 +1,18 @@
 from .Beverage import Beverage
 from .SingletonMeta import SingletonMeta
 
+from threading import Lock
+
 class InventoryManager(metaclass=SingletonMeta):
 
     def __init__(self) -> None:
         self._inventory = {}
+        self._lock = Lock()
     
     def check_and_update_inventory(self, beverage: Beverage):
+        print("Thread {} about to lock".format(beverage.get_name()))
+        self._lock.acquire()
+        print("Thread {} lock acquired".format(beverage.get_name()))
         required_compostion = beverage.get_composition()
         is_possible = True
         for ingredient in required_compostion:
@@ -24,7 +30,8 @@ class InventoryManager(metaclass=SingletonMeta):
             for ingredient in required_compostion:
                 ingredient_inventory_quantity= self._inventory.get(ingredient, 0)
                 self._inventory[ingredient] = ingredient_inventory_quantity - required_compostion[ingredient]
-        
+        self._lock.release()
+        print("Thread {} after release".format(beverage.get_name()))
         return is_possible
 
 
