@@ -1,4 +1,4 @@
-class CoffeeMachine:
+class CoffeeMachineDetails:
     
     def __init__(self):
         self._num_outlets = 0

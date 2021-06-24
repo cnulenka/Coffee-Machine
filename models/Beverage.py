@@ -9,3 +9,7 @@ class Beverage:
     
     def get_composition(self):
         return self._composition
+
+
+if __name__ == '__main__':
+    pass
