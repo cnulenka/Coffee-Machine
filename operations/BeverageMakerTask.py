@@ -10,4 +10,4 @@ class BeverageMakerTask:
     def run(self):
         is_created = self._inventory_manager.check_and_update_inventory(self._beverage)
         if is_created:
-            print("{} is prepared.".format(self._beverage.get_name))
+            print("{} is prepared.".format(self._beverage.get_name()))
