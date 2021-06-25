@@ -1,6 +1,10 @@
 from operations.CoffeeMachineService import CoffeeMachineService
-import sys
 import json
+
+'''
+    class used to run coffee machine functionality
+    interactively from the cmd
+'''
 
 class CoffeeMachineApp:
 
@@ -18,7 +22,7 @@ class CoffeeMachineApp:
         print("===================================================================")
     
     def show_options(self):
-        message = "Please choose one of below option:\n" +\
+        message = "Please choose one of below options:\n" +\
             "1. Add/Update Inventory.\n" + \
             f"2. Order Beverage ({self._num_outlets} max at once)" +\
             "3. Reset Inventory" +\
@@ -62,16 +66,11 @@ class CoffeeMachineApp:
             else:
                 print("Wrong choice!!")
             self.show_options()
+        
 
-if __name__ == '__main__':
-    num_args = len(sys.argv)
-    if num_args == 1:
-        print("Please pass number of outlets as argument")
-    else:
-        num_outlets = sys.argv[1]
-        if type(num_outlets) != int:
-            print("Number of outlets arg should be an integer")
-        else:
-            coffee_machine_app = CoffeeMachineApp(num_outlets)
-            coffee_machine_app.execute()
+        '''
+        Program Ends
+        '''
+        self._coffee_service.reset()
+            
         
