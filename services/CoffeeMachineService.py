@@ -23,6 +23,7 @@ class CoffeeMachineService(metaclass=SingletonMeta):
         self.setup()
     
     def setup(self):
+        self._results = get_empty_results()
         self._inventory_manager = InventoryManager()
         self._threads = list()
     
@@ -36,7 +37,7 @@ class CoffeeMachineService(metaclass=SingletonMeta):
         for ingredient, quantity in ingredients.items():
             self._inventory_manager.add_ingredients_to_inventory(ingredient, quantity)
     
-    def process_order(self, beverages_order_info):
+    def process_order(self, beverages_order_info) -> RESULTS:
         orders = []
         if beverages_order_info  == None:
             orders = self._data.get_beverages()
@@ -44,6 +45,9 @@ class CoffeeMachineService(metaclass=SingletonMeta):
             orders = beverages_order_info["beverages"]
         
         self.threaded_order_dispatcher(orders)
+        aggregate_results(self._results, self.low_quantity_indicator())
+
+        return self._results
     
     def threaded_order_dispatcher(self, orders):
         '''
@@ -63,7 +67,19 @@ class CoffeeMachineService(metaclass=SingletonMeta):
     
     def add_beverage_request(self, beverage: Beverage):
         service = BeverageMakerService(beverage)
-        service.execute()
+        results = service.execute()
+        aggregate_results(self._results, results)
+    
+    def low_quantity_indicator() -> RESULTS:
+        results = get_empty_results
+        low_quantity_ingredients = self._inventory_manager.check_for_low_quantity()
+        if len(low_quantity_ingredients) > 0:
+            low_quantity_warning = "Below ingredients are running low, please refill!!"
+            for ingredient in low_quantity_ingredients:
+                low_quantity_warning += ingredient + " "
+            results["Warnings"].append(low_quantity_warning)
+        
+        return results
 
     def reset(self):
         self._inventory_manager.clear_inventory()

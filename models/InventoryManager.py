@@ -1,6 +1,7 @@
 from .Beverage import Beverage
 from .SingletonMeta import SingletonMeta
-from utils.constants import LOW_QUANTITY_WARNING_LIMIT
+from utils.constants import LOW_QUANTITY_WARNING_LIMIT, RESULTS
+from utils.Utils import *
 from threading import Lock
 
 class InventoryManager(metaclass=SingletonMeta):
@@ -8,31 +9,38 @@ class InventoryManager(metaclass=SingletonMeta):
     def __init__(self) -> None:
         self._inventory = {}
         self._lock = Lock()
-    
-    def check_and_update_inventory(self, beverage: Beverage):
-        #print("Thread {} about to lock".format(beverage.get_name()))
-        self._lock.acquire()
-        #print("Thread {} lock acquired".format(beverage.get_name()))
+
+    def validate_order_ingredients_availability(self, beverage: Beverage) -> bool, RESULTS:
+        results = get_empty_results()
         required_compostion = beverage.get_composition()
         is_possible = True
         for ingredient in required_compostion:
             ingredient_inventory_quantity= self._inventory.get(ingredient, 0)
             if ingredient_inventory_quantity == 0:
-                print("{} cannot be prepared because {} is not available".format(beverage.get_name(), ingredient))
+                results["info"].append(f"{beverage.get_name()} cannot be prepared because {ingredient} is not available.")
                 is_possible = False
                 break
             elif required_compostion[ingredient] > ingredient_inventory_quantity:
-                print("{} cannot be prepared because {} is not sufficient".format(beverage.get_name(), ingredient))
+                results["info"].append(f"{beverage.get_name()} cannot be prepared because {ingredient} is not sufficient")
                 is_possible = False
                 break
         
+        return is_possible, results
+    
+    def produce_beverage(self, beverage: Beverage) -> RESULTS:
+        #print("Thread {} about to lock".format(beverage.get_name()))
+        self._lock.acquire()
+        #print("Thread {} lock acquired".format(beverage.get_name()))
+        is_possible, results = self.validate_order_ingredients_availability(beverage)
+        required_compostion = beverage.get_composition()
         if is_possible:
             for ingredient in required_compostion:
                 ingredient_inventory_quantity= self._inventory.get(ingredient, 0)
                 self._inventory[ingredient] = ingredient_inventory_quantity - required_compostion[ingredient]
+            results["info"].append(f"{self._beverage.get_name()} is prepared.")
         self._lock.release()
         #print("Thread {} after release".format(beverage.get_name()))
-        return is_possible
+        return results
 
 
     def add_ingredients_to_inventory(self, ingredient: str, quantity: float):
