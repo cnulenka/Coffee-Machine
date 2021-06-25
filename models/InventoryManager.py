@@ -1,6 +1,6 @@
 from .Beverage import Beverage
 from .SingletonMeta import SingletonMeta
-
+from utils.constants import LOW_QUANTITY_WARNING_LIMIT
 from threading import Lock
 
 class InventoryManager(metaclass=SingletonMeta):
@@ -10,9 +10,9 @@ class InventoryManager(metaclass=SingletonMeta):
         self._lock = Lock()
     
     def check_and_update_inventory(self, beverage: Beverage):
-        print("Thread {} about to lock".format(beverage.get_name()))
+        #print("Thread {} about to lock".format(beverage.get_name()))
         self._lock.acquire()
-        print("Thread {} lock acquired".format(beverage.get_name()))
+        #print("Thread {} lock acquired".format(beverage.get_name()))
         required_compostion = beverage.get_composition()
         is_possible = True
         for ingredient in required_compostion:
@@ -31,7 +31,7 @@ class InventoryManager(metaclass=SingletonMeta):
                 ingredient_inventory_quantity= self._inventory.get(ingredient, 0)
                 self._inventory[ingredient] = ingredient_inventory_quantity - required_compostion[ingredient]
         self._lock.release()
-        print("Thread {} after release".format(beverage.get_name()))
+        #print("Thread {} after release".format(beverage.get_name()))
         return is_possible
 
 
@@ -39,6 +39,13 @@ class InventoryManager(metaclass=SingletonMeta):
         ingredient_inventory_quantity= self._inventory.get(ingredient, 0)
         self._inventory[ingredient] = ingredient_inventory_quantity + quantity
 
+    def check_for_low_quantity(self):
+        ingredients_with_low_quantity = []
+        for ingredient, quantity in self._inventory.items():
+            if quantity <= LOW_QUANTITY_WARNING_LIMIT:
+                ingredients_with_low_quantity.append(ingredient)
+        
+        return ingredients_with_low_quantity
 
     def clear_inventory(self):
         self._inventory.clear()

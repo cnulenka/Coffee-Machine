@@ -1,4 +1,4 @@
-from operations.CoffeeMachine import CoffeeMachine
+from operations.CoffeeMachineService import CoffeeMachineService
 import sys
 import json
 
@@ -6,7 +6,7 @@ def run(input_file_name):
     input_json_file = open(input_file_name, 'r')
     input_json = json.load(input_json_file)    
     input_json_file.close()
-    coffee_machine = CoffeeMachine(input_json)
+    coffee_machine = CoffeeMachineService(input_json)
     coffee_machine.process()
     coffee_machine.reset()
 
