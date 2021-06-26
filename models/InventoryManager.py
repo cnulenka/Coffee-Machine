@@ -4,6 +4,8 @@ from utils.constants import LOW_QUANTITY_WARNING_LIMIT
 from utils.Results import Results
 from threading import Lock
 import pdb
+from utils.Logger import Logger
+
 
 class InventoryManager(metaclass=SingletonInventoryManagerMeta):
 
@@ -30,9 +32,9 @@ class InventoryManager(metaclass=SingletonInventoryManagerMeta):
         return is_possible, results
     
     def produce_beverage(self, beverage: Beverage):
-        #print("Thread {} about to lock".format(beverage.get_name()))
+        Logger.get_logger().info("Thread {} about to lock".format(beverage.get_name()))
         self._lock.acquire()
-        #print("Thread {} lock acquired".format(beverage.get_name()))
+        Logger.get_logger().info("Thread {} lock acquired".format(beverage.get_name()))
         is_possible, results = self.validate_order_ingredients_availability(beverage)
         required_compostion = beverage.get_composition()
         if is_possible:
@@ -41,7 +43,7 @@ class InventoryManager(metaclass=SingletonInventoryManagerMeta):
                 self._inventory[ingredient] = ingredient_inventory_quantity - required_compostion[ingredient]
             results.info.append(f"{beverage.get_name()} is prepared.")
         self._lock.release()
-        #print("Thread {} after release".format(beverage.get_name()))
+        Logger.get_logger().info("Thread {} after release".format(beverage.get_name()))
         return results
 
 

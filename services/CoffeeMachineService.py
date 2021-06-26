@@ -6,7 +6,7 @@ from models.SingletonMeta import SingletonCoffeeServiceMeta
 from utils.Results import Results
 import pdb
 import threading
-
+from utils.Logger import Logger
 
 class CoffeeMachineService(metaclass=SingletonCoffeeServiceMeta):
 
@@ -52,9 +52,9 @@ class CoffeeMachineService(metaclass=SingletonCoffeeServiceMeta):
             #pdb.set_trace()
         else:
             orders = beverages_order_info["beverages"]
-        #pdb.set_trace()
+        Logger.get_logger().info("==========================================================")
         self.threaded_order_dispatcher(orders)
-        #pdb.set_trace()
+        Logger.get_logger().info("==========================================================")
         inventory_check_results = self.low_quantity_indicator_message()
         self._results.append_results(inventory_check_results)
         #pdb.set_trace()
@@ -73,9 +73,9 @@ class CoffeeMachineService(metaclass=SingletonCoffeeServiceMeta):
 
         for index, thread in enumerate(self._threads):
             #add each thread to main thread
-            #print("Main    : before joining thread {}.".format(index))
+            Logger.get_logger().info("Main    : before joining thread {}.".format(index))
             thread.join()
-            #print("Main    : thread {} done".format(index))
+            Logger.get_logger().info("Main    : thread {} done".format(index))
     
     def add_beverage_request(self, beverage: Beverage):
         service = BeverageMakerService(beverage)
