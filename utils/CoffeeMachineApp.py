@@ -47,8 +47,9 @@ class CoffeeMachineApp:
                 self._coffee_service.reset_results()
                 results = self._coffee_service.add_ingredients_to_inventory(ingredients_quantity_update)
                 results.print_results()
+                if len(results.errors) == 0:
+                    print("\nInventory Updated!!\n")
                 results = self._coffee_service.low_quantity_indicator_message()
-                print("\nInventory Updated!!\n")
                 results.print_results()
             elif choice == "2":
                 print("\nPlease enter the json file name with beverages order info")
