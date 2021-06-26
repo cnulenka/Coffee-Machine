@@ -17,15 +17,16 @@ class CoffeeMachineService(metaclass=SingletonCoffeeServiceMeta):
         self._inventory_manager = InventoryManager()
         #pdb.set_trace()
         self._threads = list()
+        self._data = CoffeeMachineData()
         #pdb.set_trace()
         if input_json and not num_outlets:
             #pdb.set_trace()
-            self._data = CoffeeMachineData(input_json)
+            input_validation_results = self._data.set_data(input_json)
+            self._results.append_results(input_validation_results)
             #pdb.set_trace()
             self.add_ingredients_to_inventory()
             #pdb.set_trace()
         elif num_outlets and not input_json:
-            self._data = CoffeeMachineData()
             self._data.set_num_outlets(num_outlets)
     
     def add_ingredients_to_inventory(self, ingredients_update_info = None):
@@ -39,6 +40,9 @@ class CoffeeMachineService(metaclass=SingletonCoffeeServiceMeta):
         for ingredient, quantity in ingredients.items():
             self._inventory_manager.add_ingredients_to_inventory(ingredient, quantity)
     
+    def validate_input_data(self, json):
+        return self._data.validate_input_data(json)
+
     def process_order(self, beverages_order_info = None) -> Results:
         orders = []
         #pdb.set_trace()
@@ -51,7 +55,7 @@ class CoffeeMachineService(metaclass=SingletonCoffeeServiceMeta):
         #pdb.set_trace()
         self.threaded_order_dispatcher(orders)
         #pdb.set_trace()
-        inventory_check_results = self.low_quantity_indicator()
+        inventory_check_results = self.low_quantity_indicator_message()
         self._results.append_results(inventory_check_results)
         #pdb.set_trace()
         return self._results
@@ -78,9 +82,12 @@ class CoffeeMachineService(metaclass=SingletonCoffeeServiceMeta):
         results = service.execute()
         self._results.append_results(results)
     
-    def low_quantity_indicator(self) -> Results:
+    def low_quantity_indicator(self) -> list:
+        return self._inventory_manager.check_for_low_quantity()
+
+    def low_quantity_indicator_message(self) -> Results:
         results = Results()
-        low_quantity_ingredients = self._inventory_manager.check_for_low_quantity()
+        low_quantity_ingredients = self.low_quantity_indicator()
         if len(low_quantity_ingredients) > 0:
             low_quantity_warning = "\nBelow ingredients are running low, please refill!!\n"
             for ingredient in low_quantity_ingredients:
@@ -90,15 +97,22 @@ class CoffeeMachineService(metaclass=SingletonCoffeeServiceMeta):
         
         return results
     
-    def get_invetory_status(self):
+    def get_invetory_status(self) -> dict:
         return self._inventory_manager.get_inventory_status()
     
     def get_num_outlets(self):
         return self._data.get_num_outlets()
     
+    def get_num_orders(self):
+        return len(self._data.get_beverages())
+    
     def reset_results(self):
         self._results.reset_results()
+    
+    def set_machine_data(self, input_json):
+        self._data.set_data(input_json)
     
     def reset_service(self):
         self.reset_results()
         self._inventory_manager.clear_inventory()
+        self._data.clear_data()

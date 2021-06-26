@@ -46,7 +46,7 @@ class CoffeeMachineApp:
                 ingredients_quantity_update_file.close()
                 self._coffee_service.reset_results()
                 self._coffee_service.add_ingredients_to_inventory(ingredients_quantity_update)
-                results = self._coffee_service.low_quantity_indicator()
+                results = self._coffee_service.low_quantity_indicator_message()
                 print("\nInventory Updated!!\n")
                 results.print_results()
             elif choice == "2":

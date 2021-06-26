@@ -1,6 +1,6 @@
 from .Beverage import Beverage
 from .SingletonMeta import SingletonInventoryManagerMeta
-from utils.Constants import LOW_QUANTITY_WARNING_LIMIT
+from utils.constants import LOW_QUANTITY_WARNING_LIMIT
 from utils.Results import Results
 from threading import Lock
 import pdb
