@@ -1,6 +1,1 @@
-LOW_QUANTITY_WARNING_LIMIT = 10 # 10ml is warning limit
-RESULTS = {
-    "Errors" : [],
-    "Warnings": [],
-    "Info": []
-}
+LOW_QUANTITY_WARNING_LIMIT = 50 # 50ml is warning limit

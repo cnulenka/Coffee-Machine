@@ -1,7 +1,6 @@
 from models.Beverage import Beverage
 from models.InventoryManager import InventoryManager
-from utils.Utils import *
-from utils.Constants import RESULTS
+from utils.Results import Results
 
 class BeverageMakerService:
 
@@ -9,5 +8,5 @@ class BeverageMakerService:
         self._beverage = beverage
         self._inventory_manager = InventoryManager()
     
-    def execute(self) -> RESULTS:
+    def execute(self) -> Results:
         return self._inventory_manager.produce_beverage(self._beverage)
