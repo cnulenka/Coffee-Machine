@@ -14,19 +14,19 @@ class Results:
     def print_results(self) -> None:
         error_list = self.errors
         if len(error_list) > 0:
-            print()
+            print("\n")
             for error in error_list:
                 print("Error: " + error)
 
         warnings_list = self.warnings
         if len(warnings_list) > 0:
-            print()
+            print("\n")
             for warning in warnings_list:
                 print("Warning: " + warning)
 
         info_list = self.info
         if len(info_list) > 0:
-            print()
+            print("\n")
             for info in info_list:
                 print("Info: " + info)
 

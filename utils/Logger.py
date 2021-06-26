@@ -19,3 +19,5 @@ class Logger:
         #Setting the threshold of logger to DEBUG
         Logger._logger.setLevel(logging.DEBUG)
         return Logger._logger
+
+logger = Logger.get_logger()

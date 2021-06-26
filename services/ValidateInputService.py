@@ -3,7 +3,7 @@ from jsonschema import validate
 
 class ValidateInputService:
 
-    _coffee_machine_input_schema_1 = {
+    _coffee_machine_full_input_schema = {
             "type":"object",
             "properties":{
                 "machine":{
@@ -38,10 +38,40 @@ class ValidateInputService:
                 "machine"
             ]
         }
+    
+    _coffee_machine_ingredients_input = {
+                "type":"object",
+                "properties":{
+                    "total_items_quantity":{
+                    }
+                },
+                "required":[
+                    "total_items_quantity"
+                ]
+            }
+
+    _coffee_machine_beverages_input = {
+                "type":"object",
+                "properties":{
+                    "beverages":{
+                    }
+                },
+                "required":[
+                    "beverages"
+                ]
+            }
 
     def __init__(self) -> None:
         pass
     
     @staticmethod
-    def validate_coffee_machine_input( user_input_json):
-        validate(instance=user_input_json, schema= ValidateInputService._coffee_machine_input_schema_1)
+    def validate_coffee_machine_full_input( user_input_json):
+        validate(instance=user_input_json, schema= ValidateInputService._coffee_machine_full_input_schema)
+    
+    @staticmethod
+    def validate_coffee_machine_ingredients_input( user_input_json):
+        validate(instance=user_input_json, schema= ValidateInputService._coffee_machine_ingredients_input)
+    
+    @staticmethod
+    def validate_coffee_machine_beverages_input( user_input_json):
+        validate(instance=user_input_json, schema= ValidateInputService._coffee_machine_beverages_input)

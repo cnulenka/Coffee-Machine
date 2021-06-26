@@ -7,6 +7,7 @@ def run():
     print("Please choose one of below options:")
     print("1. Run machine interactively")
     print("2. Run with Json input")
+    print("3. Exit")
     print("Enter the choice number")
     print("===================================================================\n")
     choice = input()
@@ -25,6 +26,8 @@ def run():
         results = coffee_service.process_order()
         results.print_results()
         coffee_service.reset_service()
+    elif choice == '3':
+        print("Thank you, have a nice day!!")
     else:
         print("Wrong Input!! Try again")
 

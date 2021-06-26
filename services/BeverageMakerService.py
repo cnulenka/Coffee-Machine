@@ -8,5 +8,5 @@ class BeverageMakerService:
         self._beverage = beverage
         self._inventory_manager = InventoryManager()
     
-    def execute(self) -> Results:
+    def make_beverage(self) -> Results:
         return self._inventory_manager.produce_beverage(self._beverage)

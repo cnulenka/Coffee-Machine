@@ -9,10 +9,10 @@ class CoffeeMachineData:
         self._ingredients_quantity_map = {}
         self._beverages = {}
     
-    def validate_input_data(self, input_json: dict) -> Results:
+    def validate_full_input_data(self, input_json: dict) -> Results:
         results = Results()
         try:
-            ValidateInputService.validate_coffee_machine_input(input_json)
+            ValidateInputService.validate_coffee_machine_full_input(input_json)
         except jsonschema.exceptions.ValidationError:
             results.errors.append("Wrong Input JSON format. Please check README for reference")
         try:
@@ -36,7 +36,7 @@ class CoffeeMachineData:
         return results
     
     def set_data(self, input_json: dict):
-        results = self.validate_input_data(input_json)
+        results = self.validate_full_input_data(input_json)
 
         if len(results.errors) == 0:
             self._num_outlets = input_json["machine"]["outlets"]["count_n"]

@@ -45,7 +45,8 @@ class CoffeeMachineApp:
                 ingredients_quantity_update = json.load(ingredients_quantity_update_file)    
                 ingredients_quantity_update_file.close()
                 self._coffee_service.reset_results()
-                self._coffee_service.add_ingredients_to_inventory(ingredients_quantity_update)
+                results = self._coffee_service.add_ingredients_to_inventory(ingredients_quantity_update)
+                results.print_results()
                 results = self._coffee_service.low_quantity_indicator_message()
                 print("\nInventory Updated!!\n")
                 results.print_results()
@@ -67,12 +68,12 @@ class CoffeeMachineApp:
                 if len(status) == 0:
                     print("\nInventory is empty!!\n")
                 else:
-                    print()
+                    print("\n")
                     for ingredient in status:
                         name = ingredient["name"]
                         quantity = ingredient["quantity"]
                         print(f"Inventory has {quantity}ml of {name}")
-                    print()
+                    print("\n")
             elif choice == "4":
                 self._coffee_service.reset_service()
                 print("\nInventory cleared.")
