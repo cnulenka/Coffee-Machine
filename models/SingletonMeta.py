@@ -1,5 +1,14 @@
 from threading import Lock
 
+'''
+    There are multiple ways in python to
+    implement singleton classes. Using meta class
+    is one of the approaches.
+
+    We should have a different singleton meta class
+    for different classes to avoid race conditions
+    this uses locks.
+'''
 
 class SingletonVendingServiceMeta(type):
     """

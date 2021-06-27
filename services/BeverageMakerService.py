@@ -4,6 +4,14 @@ from utils.Results import Results
 
 
 class BeverageMakerService:
+
+    '''
+        Represents a single atomic task with all
+        required information to be needed
+        for completing one thread of
+        beverage order placement.
+    '''
+
     def __init__(self, beverage: Beverage) -> None:
         self._beverage = beverage
         self._inventory_manager = InventoryManager()

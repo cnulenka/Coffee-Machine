@@ -4,7 +4,10 @@ from services.CoffeeMachineService import CoffeeMachineService
 
 """
     class used to run coffee machine functionality
-    interactively from the cmd
+    interactively from the cmd. 
+
+    Just uses the CoffeeMacineService object to serve
+    the cmd line coffee machine functionality
 """
 
 

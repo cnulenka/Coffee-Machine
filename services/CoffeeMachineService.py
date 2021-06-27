@@ -14,6 +14,19 @@ from .BeverageMakerService import BeverageMakerService
 
 
 class CoffeeMachineService(metaclass=SingletonVendingServiceMeta):
+
+    '''
+        Most important class of project. Represents the coffee machine
+        service i.e the operations of a coffee machine.
+
+        Provides service like updating invetory and order placement.
+        Also has methods to provide low quanity warnings.
+
+        Behaves as a FACADE for invetory, CoffeeMachineData, exposes
+        apis useful for testing and to provide information/warnings
+        to users.
+
+    '''
     def __init__(self, input_json: dict = None, num_outlets: int = None):
 
         self._results = Results()
@@ -46,11 +59,15 @@ class CoffeeMachineService(metaclass=SingletonVendingServiceMeta):
             try:
                 ingredients = ingredients_update_info["total_items_quantity"]
             except KeyError as e:
-                print(e)
+                print("e")
+                self._results.errors.append(e)
                 return self._results
 
         for ingredient, quantity in ingredients.items():
-            self._inventory_manager.add_ingredients_to_inventory(ingredient, quantity)
+            results = self._inventory_manager.add_ingredients_to_inventory(ingredient, quantity)
+            if len(results.errors) > 0:
+                self._results.append_results(results)
+                return self._results
 
         return self._results
 

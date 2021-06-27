@@ -6,6 +6,23 @@ from utils.Results import Results
 
 
 class CoffeeMachineData(VendingMachine):
+
+    '''
+        CoffeeMachineData inherits from VendingMachine because
+        it is a type of vending machine. 
+
+        CoffeeMachineData basically stores all input information/data
+        that is required for running the machine like number of outlets,
+        ingredients quantity map and beverages/orders list to process.
+
+        All these information are filled my user at the start of 
+        the machine.
+
+        This also has some validators for input data.
+
+        This behaves as a memory for the coffee/vending machine.
+    '''
+
     def __init__(self):
         super().__init__()
 
@@ -13,7 +30,7 @@ class CoffeeMachineData(VendingMachine):
         results = self.validate_full_input_data(input_json)
 
         if len(results.errors) == 0:
-            self._outlets.set_count(input_json["machine"]["outlets"]["count_n"])
+            self._outlets.set_outlet_count(input_json["machine"]["outlets"]["count_n"])
             self._ingredients_quantity_map = input_json["machine"][
                 "total_items_quantity"
             ]
@@ -27,7 +44,7 @@ class CoffeeMachineData(VendingMachine):
         self._beverages.clear()
 
     """
-    Input Data Validators
+        Below are input data validators methods.
     """
 
     def validate_full_input_data(self, input_json: dict) -> Results:
@@ -39,7 +56,7 @@ class CoffeeMachineData(VendingMachine):
                 "Wrong Input JSON format. Please check README for reference"
             )
         try:
-            self._outlets.set_count(input_json["machine"]["outlets"]["count_n"])
+            self._outlets.set_outlet_count(input_json["machine"]["outlets"]["count_n"])
         except KeyError:
             missing_keys = '["machine"]["outlets"]["count_n"]'
             results.errors.append(

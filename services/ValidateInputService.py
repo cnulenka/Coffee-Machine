@@ -4,6 +4,13 @@ from jsonschema import validate
 
 
 class ValidateInputService:
+    '''
+         class used for validating vending
+         machine inputs.
+         Can be extended to validate other 
+         types of inputs for any kind of
+         vending machine.
+    '''
 
     _coffee_machine_full_input_schema = {
         "type": "object",

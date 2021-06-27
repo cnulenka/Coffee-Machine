@@ -1,7 +1,24 @@
 from models.Outlet import Outlet
 
-
 class VendingMachine:
+
+    '''
+        Parent class to store basic vending
+        machine data.
+
+        Can be inherited by any kind of vending
+        machine.
+
+        CoffeeMachineData inherits this and extends
+        to have additional input data validations etc.
+
+        A juice vending machine can also inherit this
+        same class.
+
+        So this class makes our project reusable and
+        extendable.
+    '''
+
     def __init__(self):
         self._outlets = Outlet()
         self._ingredients_quantity_map = {}
@@ -23,4 +40,4 @@ class VendingMachine:
         return self._beverages
 
     def get_num_outlets(self):
-        return self._outlets.get_count()
+        return self._outlets.get_outlet_count()
