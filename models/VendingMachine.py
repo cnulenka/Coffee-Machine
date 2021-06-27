@@ -25,7 +25,7 @@ class VendingMachine:
         self._beverages = {}
 
     def set_num_outlets(self, num_outlets):
-        self._outlets.set_count(num_outlets)
+        self._outlets.set_outlet_count(num_outlets)
 
     def set_ingredients_quantity(self, ingredients_quantity_map):
         self._ingredients_quantity_map = ingredients_quantity_map
