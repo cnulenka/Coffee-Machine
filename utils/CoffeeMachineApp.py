@@ -82,7 +82,8 @@ class CoffeeMachineApp:
                 self._coffee_service.reset_results()
                 results = self._coffee_service.process_order(beverages_order)
                 results.print_results()
-                print("\nOrder Served. Enjoy!! :)\n")
+                if (len(results.errors) == 0):
+                    print("\nOrder Served. Enjoy!! :)\n")
             elif choice == "3":
                 self._coffee_service.reset_results()
                 status = self._coffee_service.get_invetory_status()
