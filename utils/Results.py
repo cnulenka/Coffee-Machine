@@ -1,5 +1,4 @@
 class Results:
-
     def __init__(self) -> None:
         self.errors = []
         self.warnings = []
@@ -9,7 +8,6 @@ class Results:
         self.errors.clear()
         self.warnings.clear()
         self.info.clear()
-
 
     def print_results(self) -> None:
         error_list = self.errors
