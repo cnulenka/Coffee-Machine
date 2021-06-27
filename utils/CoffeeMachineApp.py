@@ -7,7 +7,9 @@ from services.CoffeeMachineService import CoffeeMachineService
     interactively from the cmd. 
 
     Just uses the CoffeeMacineService object to serve
-    the cmd line coffee machine functionality
+    the cmd line coffee machine functionality like multiple
+    update inventory, inventory status check, place orders calls,
+    reset inventory.
 """
 
 
