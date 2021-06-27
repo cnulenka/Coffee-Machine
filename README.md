@@ -22,7 +22,12 @@ This will install all of the required packages we selected within the `requireme
     
 ![cmd_interactive_2](https://github.com/cnulenka/Coffee-Machine/blob/main/usage_screenshots/cmd_interactive_2.png)
     
-![cmd_interactive_3](https://github.com/cnulenka/Coffee-Machine/blob/main/usage_screenshots/cmd_interactive_3.png)<br>
+![cmd_interactive_3](https://github.com/cnulenka/Coffee-Machine/blob/main/usage_screenshots/cmd_interactive_3.png)
+
+![cmd_interactive_4](https://github.com/cnulenka/Coffee-Machine/blob/main/usage_screenshots/cmd_interactive_4.png)
+<br>
+
+<hr>
 
 #### 2. Input a json file containing the inputs in the following format:
 
@@ -73,3 +78,15 @@ This will install all of the required packages we selected within the `requireme
 ![run_with_input_json](https://github.com/cnulenka/Coffee-Machine/blob/main/usage_screenshots/run_with_input_json.png)
 
 Whenever ingredients run low, a warning is displayed in the console.
+
+<hr>
+<br>
+
+### Run Tests
+
+Execute the below command to run tests:
+
+```bash
+python test_coffee_machine.py
+```
+![run_tests](https://github.com/cnulenka/Coffee-Machine/blob/main/usage_screenshots/run_tests.png)
