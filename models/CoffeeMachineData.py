@@ -9,6 +9,26 @@ class CoffeeMachineData(VendingMachine):
     def __init__(self):
         super().__init__()
     
+    def set_data(self, input_json: dict):
+        results = self.validate_full_input_data(input_json)
+
+        if len(results.errors) == 0:
+            self._outlets.set_count(input_json["machine"]["outlets"]["count_n"])
+            self._ingredients_quantity_map = input_json["machine"]["total_items_quantity"]
+            self._beverages = input_json["machine"]["beverages"]
+        
+        return results
+    
+    def clear_data(self):
+        self._num_outlets = 0
+        self._ingredients_quantity_map.clear()
+        self._beverages.clear()
+    
+
+    '''
+    Input Data Validators
+    '''
+
     def validate_full_input_data(self, input_json: dict) -> Results:
         results = Results()
         try:
@@ -34,18 +54,21 @@ class CoffeeMachineData(VendingMachine):
             results.errors.append(f"Please check input json, missing required keys({missing_keys})")
         
         return results
-    
-    def set_data(self, input_json: dict):
-        results = self.validate_full_input_data(input_json)
 
-        if len(results.errors) == 0:
-            self._outlets.set_count(input_json["machine"]["outlets"]["count_n"])
-            self._ingredients_quantity_map = input_json["machine"]["total_items_quantity"]
-            self._beverages = input_json["machine"]["beverages"]
+    def validate_ingredients_input_data(self, ingredients_input: dict) -> Results:
+        results = Results()
+        try:
+            ValidateInputService.validate_coffee_machine_ingredients_input(ingredients_input)
+        except jsonschema.exceptions.ValidationError:
+            results.errors.append("Wrong Input JSON format. Please check README for reference")
         
         return results
     
-    def clear_data(self):
-        self._num_outlets = 0
-        self._ingredients_quantity_map.clear()
-        self._beverages.clear()
+    def validate_beverages_input_data(self, beverages_input: dict) -> Results:
+        results = Results()
+        try:
+            ValidateInputService.validate_coffee_machine_beverages_input(beverages_input)
+        except jsonschema.exceptions.ValidationError:
+            results.errors.append("Wrong Input JSON format. Please check README for reference")
+        
+        return results

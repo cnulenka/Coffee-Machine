@@ -1,6 +1,6 @@
 from threading import Lock
 
-class SingletonCoffeeServiceMeta(type):
+class SingletonVendingServiceMeta(type):
     """
     This is a thread-safe implementation of Singleton.
     """

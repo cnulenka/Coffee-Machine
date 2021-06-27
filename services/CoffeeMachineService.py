@@ -2,15 +2,14 @@ from models.InventoryManager import InventoryManager
 from models.CoffeeMachineData import CoffeeMachineData
 from models.Beverage import Beverage
 from .BeverageMakerService import BeverageMakerService
-from models.SingletonMeta import SingletonCoffeeServiceMeta
-from services.ValidateInputService import ValidateInputService
+from models.SingletonMeta import SingletonVendingServiceMeta
 import jsonschema
 from utils.Results import Results
 import pdb
 import threading
 from utils.Logger import logger
 
-class CoffeeMachineService(metaclass=SingletonCoffeeServiceMeta):
+class CoffeeMachineService(metaclass=SingletonVendingServiceMeta):
 
     def __init__(self, input_json: dict = None, num_outlets: int = None):
         #pdb.set_trace()
@@ -96,9 +95,20 @@ class CoffeeMachineService(metaclass=SingletonCoffeeServiceMeta):
         results = service.make_beverage()
         self._results.append_results(results)
     
-    def low_quantity_indicator(self) -> list:
-        return self._inventory_manager.check_for_low_quantity()
+    
+    def reset_results(self):
+        self._results.reset_results()
+    
+    def reset_service(self):
+        self.reset_results()
+        self._inventory_manager.clear_inventory()
+        self._coffee_machine_data.clear_data()
+    
+    '''
+    Facade for InventoryManager
 
+    '''
+    
     def low_quantity_indicator_message(self) -> Results:
         results = Results()
         low_quantity_ingredients = self.low_quantity_indicator()
@@ -114,43 +124,30 @@ class CoffeeMachineService(metaclass=SingletonCoffeeServiceMeta):
     def get_invetory_status(self) -> dict:
         return self._inventory_manager.get_inventory_status()
     
+    def low_quantity_indicator(self) -> list:
+        return self._inventory_manager.check_for_low_quantity()
+    
+    '''
+    Facade for CoffeeMachineData
+    '''
+    
     def get_num_outlets(self):
         return self._coffee_machine_data.get_num_outlets()
     
     def get_num_orders(self):
         return len(self._coffee_machine_data.get_beverages())
     
-    def reset_results(self):
-        self._results.reset_results()
-    
     def set_machine_data(self, input_json):
         self._coffee_machine_data.set_data(input_json)
     
-    def reset_service(self):
-        self.reset_results()
-        self._inventory_manager.clear_inventory()
-        self._coffee_machine_data.clear_data()
-    
     '''
-        input validators
+        Input validators
     '''
     def validate_full_input_data(self, json):
         return self._coffee_machine_data.validate_full_input_data(json)
 
     def validate_ingredients_input_data(self, ingredients_input: dict) -> Results:
-        results = Results()
-        try:
-            ValidateInputService.validate_coffee_machine_ingredients_input(ingredients_input)
-        except jsonschema.exceptions.ValidationError:
-            results.errors.append("Wrong Input JSON format. Please check README for reference")
-        
-        return results
+        return self._coffee_machine_data.validate_ingredients_input_data(ingredients_input)
     
     def validate_beverages_input_data(self, beverages_input: dict) -> Results:
-        results = Results()
-        try:
-            ValidateInputService.validate_coffee_machine_beverages_input(beverages_input)
-        except jsonschema.exceptions.ValidationError:
-            results.errors.append("Wrong Input JSON format. Please check README for reference")
-        
-        return results
+        return self._coffee_machine_data.validate_beverages_input_data(beverages_input)
