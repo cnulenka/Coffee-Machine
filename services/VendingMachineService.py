@@ -2,8 +2,8 @@ from abc import ABC, abstractmethod
 
 
 class VendingMachineService(ABC):
-    
-    '''
+
+    """
         VendingMachineService abstract class
         represents the  basic and essential 
         operations done by any vending machine.
@@ -18,7 +18,7 @@ class VendingMachineService(ABC):
         Was added keeping in mind the extendibility
         of the product.
 
-    '''
+    """
 
     @abstractmethod
     def process_order(self):
@@ -28,7 +28,8 @@ class VendingMachineService(ABC):
     def add_ingredients_to_inventory(self):
         pass
 
-'''
+
+"""
     CANDIDATE NOTE:
 
     I could not use this parent class for CoffeeMachineService
@@ -41,4 +42,4 @@ class VendingMachineService(ABC):
 
     This however doesn't affect the behavior of the project.
     This is only for a better design and extendibility.
-'''
+"""

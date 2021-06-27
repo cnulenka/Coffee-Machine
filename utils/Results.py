@@ -1,9 +1,10 @@
 class Results:
 
-    '''
+    """
         Used for passing errors, warnings, info
         after any operation.
-    '''
+    """
+
     def __init__(self) -> None:
         self.errors = []
         self.warnings = []

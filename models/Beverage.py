@@ -1,12 +1,12 @@
 class Beverage:
 
-    '''
+    """
     Beverage class represents a beverage, which has a name
     and is made up of a list of ingredients.
 
     self._composition is a python dict with ingredient name as
     key and ingredient quantity as value
-    '''
+    """
 
     def __init__(self, beverage_name: str, beverage_composition: dict):
         self._name: str = beverage_name
@@ -19,7 +19,7 @@ class Beverage:
         return self._composition
 
 
-'''
+"""
 CANDIDATE NOTE:
 
     one other idea here was to make a abstract Beverage class and inherit and
@@ -38,4 +38,4 @@ CANDIDATE NOTE:
     can have a warning limit of 50% may be.
 
     -Shakti Prasad Lenka
-'''
+"""

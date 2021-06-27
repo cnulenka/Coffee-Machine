@@ -7,7 +7,7 @@ from utils.Results import Results
 
 class CoffeeMachineData(VendingMachine):
 
-    '''
+    """
         CoffeeMachineData inherits from VendingMachine because
         it is a type of vending machine. 
 
@@ -21,7 +21,7 @@ class CoffeeMachineData(VendingMachine):
         This also has some validators for input data.
 
         This behaves as a memory for the coffee/vending machine.
-    '''
+    """
 
     def __init__(self):
         super().__init__()

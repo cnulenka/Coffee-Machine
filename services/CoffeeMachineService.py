@@ -15,7 +15,7 @@ from .BeverageMakerService import BeverageMakerService
 
 class CoffeeMachineService(metaclass=SingletonVendingServiceMeta):
 
-    '''
+    """
         Most important class of project. Represents the singleton 
         coffee machine service i.e the operations of a coffee machine.
 
@@ -25,7 +25,8 @@ class CoffeeMachineService(metaclass=SingletonVendingServiceMeta):
         Behaves as a FACADE for inventory, CoffeeMachineData, exposes
         apis useful for testing and to provide information/warnings
         to users.
-    '''
+    """
+
     def __init__(self, input_json: dict = None, num_outlets: int = None):
 
         self._inventory_manager = InventoryManager()
@@ -34,18 +35,22 @@ class CoffeeMachineService(metaclass=SingletonVendingServiceMeta):
         self._results = Results()
 
         if input_json and not num_outlets:
+
             input_validation_results = self._coffee_machine_data.set_data(input_json)
             self._results.append_results(input_validation_results)
-            self.add_ingredients_to_inventory()
+
+            input_validation_results = self.add_ingredients_to_inventory()
+            self._results.append_results(input_validation_results)
+
         elif num_outlets and not input_json:
             self._coffee_machine_data.set_num_outlets(num_outlets)
 
     def add_ingredients_to_inventory(self, ingredients_update_info=None):
 
-        '''
+        """
             Update ingredients in inventory.
             Verify the input json for input consistency.
-        '''
+        """
 
         ingredients = []
         if ingredients_update_info == None:
@@ -59,11 +64,15 @@ class CoffeeMachineService(metaclass=SingletonVendingServiceMeta):
                 ingredients = ingredients_update_info["total_items_quantity"]
             except KeyError as e:
                 print(e)
-                self._results.errors.append("Input json does not have total_items_quantity key, Please check Input.")
+                self._results.errors.append(
+                    "Input json does not have total_items_quantity key, Please check Input."
+                )
                 return self._results
 
         for ingredient, quantity in ingredients.items():
-            results = self._inventory_manager.add_ingredients_to_inventory(ingredient, quantity)
+            results = self._inventory_manager.add_ingredients_to_inventory(
+                ingredient, quantity
+            )
             if len(results.errors) > 0:
                 self._results.append_results(results)
                 return self._results
@@ -71,10 +80,10 @@ class CoffeeMachineService(metaclass=SingletonVendingServiceMeta):
         return self._results
 
     def process_order(self, beverages_order_info=None) -> Results:
-        '''
+        """
             Processes the coming orders and returns information
             where ordered item could be prepared or not.
-        '''
+        """
         orders = []
 
         if beverages_order_info == None:
@@ -119,16 +128,19 @@ class CoffeeMachineService(metaclass=SingletonVendingServiceMeta):
             logger.info("Main    : thread {} done".format(index))
 
     def add_beverage_request(self, beverage: Beverage):
-        '''
+        """
             Use BeverageMakerService to serve/complete
             the order as a atomic threaded task.
-        '''
+        """
         service = BeverageMakerService(beverage)
         results = service.make_beverage()
         self._results.append_results(results)
 
     def reset_results(self):
         self._results.reset_results()
+
+    def get_results(self):
+        return self._results
 
     def reset_service(self):
         self.reset_results()
@@ -141,6 +153,9 @@ class CoffeeMachineService(metaclass=SingletonVendingServiceMeta):
     """
 
     def low_quantity_indicator_message(self) -> Results:
+        """
+            Returns name of the ingredients running low.
+        """
         results = Results()
         low_quantity_ingredients = self.low_quantity_indicator()
         if len(low_quantity_ingredients) > 0:
@@ -156,11 +171,11 @@ class CoffeeMachineService(metaclass=SingletonVendingServiceMeta):
 
         return results
 
-    def get_invetory_status(self) -> dict:
-        return self._inventory_manager.get_inventory_status()
-
     def low_quantity_indicator(self) -> list:
         return self._inventory_manager.check_for_low_quantity()
+
+    def get_invetory_status(self) -> dict:
+        return self._inventory_manager.get_inventory_status()
 
     """
     Facade for CoffeeMachineData

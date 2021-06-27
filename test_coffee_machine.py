@@ -2,16 +2,15 @@ import json
 import pdb
 import unittest
 
-
 from services.CoffeeMachineService import CoffeeMachineService
 
 
 class TestCoffeeMachine(unittest.TestCase):
 
-    '''
+    """
         Test suite to test all functionalities of
         Coffee Machine.
-    '''
+    """
 
     def setUp(self):
         self.coffee_service = CoffeeMachineService()
@@ -21,12 +20,14 @@ class TestCoffeeMachine(unittest.TestCase):
         pass
 
     def test_4_outlets_success(self):
-        '''
+        """
             Check placing an order with 4 outlets machine.
             Input json has num outlets, ingredients info, 
             orders info.
-        '''
-        input_json_file = open(f"{self.test_files_folder}/4_outlet_order_valid_input.json", "r")
+        """
+        input_json_file = open(
+            f"{self.test_files_folder}/4_outlet_order_valid_input.json", "r"
+        )
         input_json: dict = json.load(input_json_file)
         input_json_file.close()
         self.coffee_service.reset_service()
@@ -55,13 +56,15 @@ class TestCoffeeMachine(unittest.TestCase):
 
     def test_3_outlets_success(self):
 
-        '''
+        """
             Check placing an order with 3 outlets machine.
             Input json has num outlets, ingredients info, 
             orders info.
-        '''
+        """
 
-        input_json_file = open(f"{self.test_files_folder}/3_outlet_order_valid_input.json", "r")
+        input_json_file = open(
+            f"{self.test_files_folder}/3_outlet_order_valid_input.json", "r"
+        )
         input_json: dict = json.load(input_json_file)
         input_json_file.close()
         self.coffee_service.reset_service()
@@ -89,11 +92,13 @@ class TestCoffeeMachine(unittest.TestCase):
         self.coffee_service.reset_service()
 
     def test_no_ingredients_provided(self):
-        '''
+        """
             Check placing an order with no ingredients info.
             Input json has num outlets, orders info.
-        '''
-        input_json_file = open(f"{self.test_files_folder}/ingredients_missing_invalid_input.json", "r")
+        """
+        input_json_file = open(
+            f"{self.test_files_folder}/ingredients_missing_invalid_input.json", "r"
+        )
         input_json: dict = json.load(input_json_file)
         input_json_file.close()
         self.coffee_service.reset_service()
@@ -119,12 +124,14 @@ class TestCoffeeMachine(unittest.TestCase):
         self.coffee_service.reset_service()
 
     def test_10_orders_with_10_outlets_success(self):
-        '''
+        """
             Check placing an 10 orders with 10 outlets machine.
             Input json has num outlets, ingredients info, 
             orders info.
-        '''
-        input_json_file = open(f"{self.test_files_folder}/10_orders_10_outlets_valid_input.json", "r")
+        """
+        input_json_file = open(
+            f"{self.test_files_folder}/10_orders_10_outlets_valid_input.json", "r"
+        )
         input_json: dict = json.load(input_json_file)
         input_json_file.close()
         self.coffee_service.reset_service()
@@ -153,16 +160,18 @@ class TestCoffeeMachine(unittest.TestCase):
 
     def test_10_orders_with_4_outlets_success(self):
 
-        '''
+        """
             Check placing an 10 orders with 4 outlets machine.
             Input json has num outlets, ingredients info, 
             orders info.
 
             Machine will serve 4 orders parallely at once.
             Next 4 in next turn.
-        '''
+        """
 
-        input_json_file = open(f"{self.test_files_folder}/10_orders_4_outlets_valid_input.json", "r")
+        input_json_file = open(
+            f"{self.test_files_folder}/10_orders_4_outlets_valid_input.json", "r"
+        )
         input_json: dict = json.load(input_json_file)
         input_json_file.close()
         self.coffee_service.reset_service()
@@ -190,11 +199,14 @@ class TestCoffeeMachine(unittest.TestCase):
         self.coffee_service.reset_service()
 
     def test_invalid_input(self):
-        '''
+        """
             test invalid input where ingredients, orders/beverage info is
             missing while placing order.
-        '''
-        input_json_file = open(f"{self.test_files_folder}/ingredients_beverages_missing_invalid_json.json", "r")
+        """
+        input_json_file = open(
+            f"{self.test_files_folder}/ingredients_beverages_missing_invalid_json.json",
+            "r",
+        )
         input_json: dict = json.load(input_json_file)
         input_json_file.close()
         self.coffee_service.reset_service()
@@ -213,12 +225,12 @@ class TestCoffeeMachine(unittest.TestCase):
 
     def test_empty_json_input(self):
 
-        '''
+        """
             test invalid input where ingredients, orders/beverage, outlets
             info is missing while placing order.
 
             All required info are missing.
-        '''
+        """
 
         input_json_file = open(f"{self.test_files_folder}/empty_json.json", "r")
         input_json: dict = json.load(input_json_file)
@@ -239,13 +251,15 @@ class TestCoffeeMachine(unittest.TestCase):
 
     def test_string_quantity_input(self):
 
-        '''
+        """
             test invalid input where ingredients, orders/beverage quantity value
             is in string not integer. Currently machine only accepts integer
             quantity values.
-        '''
+        """
 
-        input_json_file = open(f"{self.test_files_folder}/quantity_as_string_invalid_input.json", "r")
+        input_json_file = open(
+            f"{self.test_files_folder}/quantity_as_string_invalid_input.json", "r"
+        )
         input_json: dict = json.load(input_json_file)
         input_json_file.close()
         self.coffee_service.reset_service()
@@ -262,11 +276,11 @@ class TestCoffeeMachine(unittest.TestCase):
         assert len(input_validation_results.errors) == 1
 
     def test_valid_ingredients_input(self):
-        
-        '''
+
+        """
             Test valid ingredients input json.
             Checking validate_ingredients_input_data method.
-        '''
+        """
 
         input_json_file = open(
             f"{self.test_files_folder}/total_items_quantity.json", "r"
@@ -289,10 +303,10 @@ class TestCoffeeMachine(unittest.TestCase):
 
     def test_valid_beverages_input(self):
 
-        '''
+        """
             Test valid beverages input json.
             Checking validate_beverages_input_data method.
-        '''
+        """
 
         input_json_file = open(f"{self.test_files_folder}/beverages.json", "r")
         input_json: dict = json.load(input_json_file)
@@ -312,11 +326,11 @@ class TestCoffeeMachine(unittest.TestCase):
         assert len(input_validation_results.errors) == 0
 
     def test_invalid_ingredients_input(self):
-        
-        '''
+
+        """
             Test invalid ingredients input json.
             Checking validate_ingredients_input_data method.
-        '''
+        """
 
         input_json: dict = {}
         self.coffee_service.reset_service()
@@ -335,10 +349,10 @@ class TestCoffeeMachine(unittest.TestCase):
 
     def test_invalid_beverages_input(self):
 
-        '''
+        """
             Test invalid beverages input json.
             Checking validate_beverages_input_data method.
-        '''
+        """
 
         input_json: dict = {}
         self.coffee_service.reset_service()

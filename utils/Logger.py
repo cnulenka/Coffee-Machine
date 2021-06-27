@@ -3,10 +3,11 @@ import logging
 
 class Logger:
 
-    '''
+    """
         Class with static method used for logging
         through out the code base.
-    '''
+    """
+
     _logger = None
 
     def __init__(self) -> None:

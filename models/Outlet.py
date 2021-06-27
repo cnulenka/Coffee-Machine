@@ -1,12 +1,12 @@
 class Outlet:
 
-    '''
+    """
         Outlet class represents outlets in a 
         vending machine.
 
         It is a different class in favour of
         extensibility and Separatiion of Concern.
-    '''
+    """
 
     def __init__(self) -> None:
         self._num_outlets = 0
@@ -17,7 +17,8 @@ class Outlet:
     def get_outlet_count(self):
         return self._num_outlets
 
-'''
+
+"""
     CANDIDATE NOTE:
     
     May be in future we
@@ -31,4 +32,4 @@ class Outlet:
     
     Again Outlet can be a abstract class
     inherited by many type of outlets.
-'''
+"""

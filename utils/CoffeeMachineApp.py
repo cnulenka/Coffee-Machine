@@ -60,6 +60,8 @@ class CoffeeMachineApp:
                     ingredients_quantity_update_file
                 )
                 ingredients_quantity_update_file.close()
+                if len(ingredients_quantity_update) == 0:
+                    print("\nWrong Input, Empty JSON\n")
                 self._coffee_service.reset_results()
                 results = self._coffee_service.add_ingredients_to_inventory(
                     ingredients_quantity_update
@@ -80,9 +82,14 @@ class CoffeeMachineApp:
                 beverages_order = json.load(beverages_order_file)
                 beverages_order_file.close()
                 self._coffee_service.reset_results()
+                if len(beverages_order) == 0:
+                    print("\nWrong Input, Empty JSON\n")
+                ingredients = self._coffee_service.get_invetory_status()
+                if len(ingredients) == 0:
+                    print("\nInventory is empty!!!")
                 results = self._coffee_service.process_order(beverages_order)
                 results.print_results()
-                if (len(results.errors) == 0):
+                if len(results.errors) == 0:
                     print("\nOrder Served. Enjoy!! :)\n")
             elif choice == "3":
                 self._coffee_service.reset_results()

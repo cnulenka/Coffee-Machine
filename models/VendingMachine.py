@@ -1,8 +1,9 @@
 from models.Outlet import Outlet
 
+
 class VendingMachine:
 
-    '''
+    """
         Parent class to store basic vending
         machine data.
 
@@ -17,7 +18,7 @@ class VendingMachine:
 
         So this class makes our project reusable and
         extendable.
-    '''
+    """
 
     def __init__(self):
         self._outlets = Outlet()

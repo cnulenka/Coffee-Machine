@@ -11,7 +11,7 @@ from .SingletonMeta import SingletonInventoryManagerMeta
 
 class InventoryManager(metaclass=SingletonInventoryManagerMeta):
 
-    '''
+    """
         InventoryManager is a singleton class, as each coffee
         machine should have only one inventory, hence on enitity
         to manage that shared resources.
@@ -26,34 +26,36 @@ class InventoryManager(metaclass=SingletonInventoryManagerMeta):
 
         Same instance is maintained through out one coffee machine
         session.
-    '''
+    """
 
     def __init__(self) -> None:
-        self._inventory : dict = {}
+        self._inventory: dict = {}
         self._lock = Lock()
-    
+
     def add_ingredients_to_inventory(self, ingredient: str, quantity: float):
-        '''
+        """
             populate the inventory, error handling to handle scenarios
             when input json has wrong input format.
 
             InventoryManager can be added with methods to handle quantites
             written in string which I guess is outside the scope of this
             assignment.
-        '''
+        """
         results = Results()
-        
+
         try:
             ingredient_inventory_quantity = self._inventory.get(ingredient, 0)
             self._inventory[ingredient] = ingredient_inventory_quantity + quantity
         except TypeError as e:
-            results.errors.append("Quantity values in JSON should be integer not strings")
-        
+            results.errors.append(
+                "Quantity values in JSON should be integer not strings"
+            )
+
         return results
 
     def produce_beverage(self, beverage: Beverage):
 
-        '''
+        """
             produce_beverage is crux of this application, it does the most
             important function i.e to check if a order is possible by using
             exisiting inventory ingredients quantity.
@@ -63,7 +65,7 @@ class InventoryManager(metaclass=SingletonInventoryManagerMeta):
 
             Locks are used to maintain consistency of inventory data as inventory
             is a shared data.
-        '''
+        """
 
         logger.info("Thread {} about to lock".format(beverage.get_name()))
         self._lock.acquire()
@@ -103,14 +105,14 @@ class InventoryManager(metaclass=SingletonInventoryManagerMeta):
         return is_possible, results
 
     def check_for_low_quantity(self):
-        
-        '''
+
+        """
             method is used to raise warning incase
             ingredients are running low.
 
             called after every order request or inventory update
             resuest from user
-        '''
+        """
 
         ingredients_with_low_quantity = []
         for ingredient, quantity in self._inventory.items():
@@ -122,10 +124,13 @@ class InventoryManager(metaclass=SingletonInventoryManagerMeta):
         return ingredients_with_low_quantity
 
     def get_inventory_status(self):
-        '''
+        """
             returns a list with current quantity
-            information of each ingredient
-        '''
+            information of each ingredient.
+
+            if return is empty, that indicates inventory is
+            empty
+        """
         status = []
         for ingredient, quantity in self._inventory.items():
             status.append({"name": ingredient, "quantity": quantity})
