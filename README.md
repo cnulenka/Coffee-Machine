@@ -1,17 +1,30 @@
 # Coffee-Machine
 
-<h1>Usage<h1>
+A multithreaded beverage order serving app. Uses threads and locks to serve N orders parallely. Shows warning to indicate ingredients running low in inventory.
+See below for usage.<br>
+
+### Usage
 
 Execute the below command to run the program:
 
-`python main.py`
+```bash
+pip install -r requirements.txt
+python main.py
+```
 
-There are 2 ways to interact with the application.
+This will install all of the required packages we selected within the `requirements.txt` file.
 
-1. Run machine interactively
+##### There are 2 ways to interact with the application.
 
+#### 1. Run machine interactively
+    
+![cmd_interactive_1](https://github.com/cnulenka/Coffee-Machine/blob/main/usage_screenshots/cmd_interactive_1.png)
+    
+![cmd_interactive_2](https://github.com/cnulenka/Coffee-Machine/blob/main/usage_screenshots/cmd_interactive_2.png)
+    
+![cmd_interactive_3](https://github.com/cnulenka/Coffee-Machine/blob/main/usage_screenshots/cmd_interactive_3.png)<br>
 
-2. Input a json file containing the inputs in the following format:
+#### 2. Input a json file containing the inputs in the following format:
 
 ```
 {
@@ -57,5 +70,6 @@ There are 2 ways to interact with the application.
     }
   }
 ```
+![run_with_input_json](https://github.com/cnulenka/Coffee-Machine/blob/main/usage_screenshots/run_with_input_json.png)
 
 Whenever ingredients run low, a warning is displayed in the console.
